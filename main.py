@@ -55,7 +55,11 @@ def register_item():
         stock = int(input('Amount of Stock: '))
 
         # create an instance of Item
-        new_item = Item(1, title, category, price, stock)
+        id = 1
+        if(len(catalog) > 0):
+            last = catalog[-1]
+            id = last.id + 1 
+        new_item = Item(id, title, category, price, stock)
         catalog.append(new_item)
 
 
@@ -74,6 +78,7 @@ def view_catalog():
         + ' | ' + i.category.ljust(15)
         + ' | ' + str(i.price).rjust(15)
         + ' | ' + str(i.stock).rjust(5))
+        print('-' * 77)
 
 
 # instructions

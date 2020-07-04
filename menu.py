@@ -12,9 +12,9 @@ def print_menu():
 
 def print_header(title):
     clear()
-    print('-' * 50)
+    print('-' * 77)
     print(' ' + title)
-    print('-' * 50)
+    print('-' * 77)
 
 
 def clear():
