@@ -10,6 +10,18 @@
             stock
 
         2: List the items on the catalog
+
+        write data to a file
+        load data from the file
+
+        3: Update the stock manually
+            - display the list of items
+            - ask user tot choose an id
+            - read the id
+            - travel the catalog array and find the item with id = id
+            - ask for new stock value 
+            - update stock
+
 """
 
 from menu import clear, print_menu, print_header
@@ -80,6 +92,20 @@ def view_catalog():
         + ' | ' + str(i.stock).rjust(5))
         print('-' * 77)
 
+def update_stock():
+    view_catalog()
+    update_id = input('Choose an item id: ')
+    
+    found = False
+    for item in catalog:
+        if(str(item.id) == update_id):
+            found = True
+            new_stock = input("Please provide new stock number: ")
+            item.stock = int(new_stock)
+
+    if(not found):
+        print('** ERROR ** - Selected id does not exist')       
+
 
 # instructions
 
@@ -98,6 +124,9 @@ while(opt != 'x'):
         save_catalog()
     elif(opt == '2'):
         view_catalog()
+    elif(opt == '3'):
+        update_stock()
+        save_catalog()
         
 
 

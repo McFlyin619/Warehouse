@@ -8,6 +8,7 @@ def print_menu():
 
     print('[1] Register new items')
     print('[2] View Catalog')
+    print('[3] Update Stock')
     print('[x] Close')
 
 def print_header(title):
