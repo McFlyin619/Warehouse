@@ -22,6 +22,27 @@
             - ask for new stock value 
             - update stock
 
+        4. How much money in inventory
+            get each item, price * stock add it tototal variable
+
+        5. Remove an item from the catalog
+            -display list of items
+            -ask user for an id
+            -read id
+            -travel array to find id
+            -if found remove item from catalog
+            -else show an error to the user
+        
+        6. Register a sale
+            -display list of items
+            -ask user for an id
+            -read id
+            -travel array to find id
+            -if found
+                -ask for amount sold
+                -show total sale price
+                -decrease amount sold
+
 """
 
 from menu import clear, print_menu, print_header
@@ -40,7 +61,7 @@ def save_catalog():
     writer = open(data_file, 'wb') # open or create a file and write binary
     pickle.dump(catalog, writer)
     writer.close() # close the file
-    print('** Item Saved **')
+    print('** Saved **')
 
 def read_catalog():
     global data_file
@@ -82,7 +103,7 @@ def register_item():
 
 def view_catalog():
     print_header('Catalog')
-    print('Item'.rjust(2) + '   ' + 'Title'.ljust(25) + '   ' + 'Category'.ljust(15) + '   ' + 'Price'.rjust(15) + '   ' + 'Stock'.rjust(5))
+    print('Id'.rjust(2) + '   ' + 'Title'.ljust(25) + '   ' + 'Category'.ljust(15) + '   ' + 'Price'.rjust(15) + '   ' + 'Stock'.rjust(5))
     for i in catalog:
 
         print(str(i.id).rjust(4) 
@@ -104,8 +125,45 @@ def update_stock():
             item.stock = int(new_stock)
 
     if(not found):
-        print('** ERROR ** - Selected id does not exist')       
+        print('** ERROR ** - Selected id does not exist')
 
+def remove_item():
+    view_catalog()
+    remove_id = input('Choose an item id: ')
+    
+    found = False
+    for item in catalog:
+        if(str(item.id) == remove_id):
+            found = True
+            catalog.remove(item)
+            
+
+    if(not found):
+        print('** ERROR ** - Selected id does not exist') 
+
+def checkout_sale():
+    view_catalog()
+    sale_id = input('Choose an item id: ')
+    
+    found = False
+    for item in catalog:
+        if(str(item.id) == sale_id):
+            found = True
+            qty_sold = int(input('Number of items sold: '))
+            item.stock = item.stock - qty_sold
+            total = qty_sold * item.price
+            print('Checkout total: $' + str(total))
+
+    if(not found):
+        print('** ERROR ** - Selected id does not exist') 
+
+def stock_value():
+    total = 0.0
+    for item in catalog:
+       total += (item.price * item.stock) 
+    print('Stock value: $' + str(total))
+    
+    
 
 # instructions
 
@@ -127,7 +185,16 @@ while(opt != 'x'):
     elif(opt == '3'):
         update_stock()
         save_catalog()
-        
+    elif(opt == '4'):
+        view_catalog()
+        stock_value()
+    elif(opt == '5'):
+        view_catalog()
+        remove_item()
+        save_catalog()
+    elif(opt == '6'):
+        checkout_sale()
+        save_catalog()
 
 
     input('...Press Enter to Continue...')
